@@ -23,6 +23,7 @@ body,
   justify-content: center;
   align-items: center;
   font-family: monospace;
+  border: 1px solid white;
 }
 
 /* 2. The Static Noise Layer */
@@ -39,11 +40,23 @@ body,
   pointer-events: none; /* Allows you to click text underneath */
 }
 
-/* 3. Border Container */
-.border-container {
-  width: 800px;
-  height: 600px;
+.tv-static-inner.rotating {
+  animation: static-noise 0.2s infinite, rotate-static 10s linear infinite;
+}
+
+/* 3. Concentric Squares */
+.concentric-square {
+  position: absolute;
   border: 1px solid white;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.all-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 /* 4. The Animation */
@@ -61,13 +74,12 @@ body,
   100% { transform: translate(5%, 0); }
 }
 
-/* 5. The Slider */
-.controls-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+@keyframes rotate-static {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
+/* 5. The Slider */
 .slider-container {
   display: flex;
   align-items: center;
@@ -158,4 +170,31 @@ body,
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* 8. Border Style Buttons */
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.style-button {
+  font-family: 'Courier New', Courier, monospace;
+  background: #333;
+  color: #f5f5dc;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-transform: lowercase;
+}
+
+.style-button:hover {
+  background: #555;
+}
+
+.style-button.active {
+  background: #f5f5dc;
+  color: #333;
 }

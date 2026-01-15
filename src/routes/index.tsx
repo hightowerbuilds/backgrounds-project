@@ -8,6 +8,13 @@ export const Route = createFileRoute('/')({
 function App() {
   const [sliderValue, setSliderValue] = useState(50)
   const [backgroundColor, setBackgroundColor] = useState('#111111')
+  const [depth, setDepth] = useState(20) // spacing between squares
+  const [borderStyle, setBorderStyle] = useState<'solid' | 'dotted' | 'dashed'>(
+    'solid',
+  )
+  const [isAnimationPaused, setIsAnimationPaused] = useState(false)
+  const [isRotating, setIsRotating] = useState(false)
+  const [isCircle, setIsCircle] = useState(false)
   const [colors, setColors] = useState([
     '#000000',
     '#ffffff',
@@ -101,12 +108,13 @@ function App() {
     <div
       style={{
         width: '100%',
-        height: '100%',
+        minHeight: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         gap: '2rem',
+        padding: '2rem 0',
       }}
     >
       <div
@@ -116,17 +124,38 @@ function App() {
         }}
       >
         <div
-          className="tv-static-inner"
+          className={`tv-static-inner ${isRotating ? 'rotating' : ''}`}
           style={{
             animationDuration: animationDuration,
             backgroundImage: `url("${noiseSvg}")`,
+            animationPlayState: isAnimationPaused ? 'paused' : 'running',
           }}
         />
+        {Array.from({ length: 20 }).map((_, index) => {
+          // Calculate cumulative offset with decreasing spacing
+          let cumulativeOffset = 0
+          for (let i = 0; i < index; i++) {
+            // Each step's spacing decreases as we go inward
+            const stepSpacing = depth * Math.pow(1 - i / 20, 2)
+            cumulativeOffset += stepSpacing
+          }
+
+          return (
+            <div
+              key={index}
+              className="concentric-square"
+              style={{
+                width: `${800 - cumulativeOffset * 2}px`,
+                height: `${600 - cumulativeOffset * 2}px`,
+                borderStyle: borderStyle,
+                borderRadius: isCircle ? '50%' : '0',
+              }}
+            />
+          )
+        })}
       </div>
 
-      <div className="border-container"></div>
-
-      <div className="controls-container">
+      <div className="all-controls">
         <div className="slider-container">
           <span className="slider-label">pace</span>
           <input
@@ -137,6 +166,26 @@ function App() {
             onChange={(e) => setSliderValue(Number(e.target.value))}
             className="slider"
           />
+        </div>
+
+        <div className="slider-container">
+          <span className="slider-label">motion</span>
+          <button
+            onClick={() => setIsAnimationPaused(!isAnimationPaused)}
+            className="add-button"
+          >
+            {isAnimationPaused ? 'play' : 'pause'}
+          </button>
+        </div>
+
+        <div className="slider-container">
+          <span className="slider-label">rotation</span>
+          <button
+            onClick={() => setIsRotating(!isRotating)}
+            className="add-button"
+          >
+            {isRotating ? 'stop' : 'spin'}
+          </button>
         </div>
 
         <div className="slider-container">
@@ -172,6 +221,52 @@ function App() {
         <button onClick={addColor} className="add-button">
           + add color
         </button>
+
+        <div className="slider-container">
+          <span className="slider-label">depth</span>
+          <input
+            type="range"
+            min="5"
+            max="40"
+            value={depth}
+            onChange={(e) => setDepth(Number(e.target.value))}
+            className="slider"
+          />
+        </div>
+
+        <div className="slider-container">
+          <span className="slider-label">border style</span>
+          <div className="button-group">
+            <button
+              onClick={() => setBorderStyle('solid')}
+              className={`style-button ${borderStyle === 'solid' ? 'active' : ''}`}
+            >
+              solid
+            </button>
+            <button
+              onClick={() => setBorderStyle('dotted')}
+              className={`style-button ${borderStyle === 'dotted' ? 'active' : ''}`}
+            >
+              dotted
+            </button>
+            <button
+              onClick={() => setBorderStyle('dashed')}
+              className={`style-button ${borderStyle === 'dashed' ? 'active' : ''}`}
+            >
+              dashed
+            </button>
+          </div>
+        </div>
+
+        <div className="slider-container">
+          <span className="slider-label">shape</span>
+          <button
+            onClick={() => setIsCircle(!isCircle)}
+            className="add-button"
+          >
+            {isCircle ? 'squares' : 'circles'}
+          </button>
+        </div>
       </div>
     </div>
   )
