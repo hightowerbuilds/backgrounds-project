@@ -348,7 +348,7 @@ function App() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         gap: '2rem',
         padding: '2rem 0',
       }}
