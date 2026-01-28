@@ -44,6 +44,59 @@ body,
   animation: static-noise 0.2s infinite, rotate-static 10s linear infinite;
 }
 
+/* 2b. Fine-grain static container (1/5 scale: 140×140) + concentric noise + depth boing */
+.tv-static-large-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tv-static-large {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #111111;
+  cursor: grab;
+  user-select: none;
+  box-shadow:
+    0 0 8px rgba(140, 140, 150, 0.9),
+    0 0 20px rgba(140, 140, 150, 0.5),
+    0 0 40px rgba(140, 140, 150, 0.3);
+}
+
+.tv-static-large.dragging {
+  cursor: grabbing;
+}
+
+.tv-static-large-inner {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-size: cover;
+  background-repeat: repeat;
+  opacity: 0.55;
+  pointer-events: none;
+  animation: static-noise 0.2s infinite;
+}
+
+.tv-static-large-blue-tint {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 11;
+  background: radial-gradient(ellipse at center, rgba(80, 140, 255, 0.85) 0%, rgba(40, 80, 200, 0.6) 100%);
+  mix-blend-mode: overlay;
+  transition: opacity 0.05s ease-out;
+}
+
 /* 3. Concentric Squares */
 .concentric-square {
   position: absolute;
@@ -197,4 +250,90 @@ body,
 .style-button.active {
   background: #f5f5dc;
   color: #333;
+}
+
+/* 9. New Feature Container */
+.new-feature-container {
+  width: 800px;
+  min-height: 200px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #f5f5dc;
+  cursor: grab;
+  user-select: none;
+}
+
+.new-feature-container.dragging {
+  cursor: grabbing;
+}
+
+/* 10. Concentric squares rubber-stretch container (1/8 scale: 100×75) */
+.concentric-stretch-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.concentric-stretch-container {
+  width: 100px;
+  height: 75px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #f5f5dc;
+  cursor: grab;
+  user-select: none;
+  overflow: hidden;
+}
+
+.concentric-stretch-container.dragging {
+  cursor: grabbing;
+}
+
+.concentric-stretch-container svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 11. Depth-boing container (small, concentric squares; depth springs on grab) */
+.concentric-boing-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.concentric-boing-container {
+  width: 100px;
+  height: 75px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #f5f5dc;
+  cursor: grab;
+  user-select: none;
+  overflow: hidden;
+}
+
+.concentric-boing-container.dragging {
+  cursor: grabbing;
+}
+
+.concentric-boing-container svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
